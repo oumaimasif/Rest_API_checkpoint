@@ -12,7 +12,7 @@ const port = 4000;
 app.use(express.json());
 //connect to mongodb database
 const uri =
-  "mongodb+srv://Omaima134:Omaima134@cluster0.paelt.mongodb.net/person_Api?retryWrites=true&w=majority&appName=Cluster0";
+  "mongodb+srv://oonnonon:oonnonon@cluster0.paelt.mongodb.net/person_Api?retryWrites=true&w=majority&appName=Cluster0";
 mongoose
   .connect(uri, {})
   .then(() => {
