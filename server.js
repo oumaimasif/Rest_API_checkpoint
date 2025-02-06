@@ -37,7 +37,8 @@ async function createUsers() {
     console.error(error);
   }
 }
-//createUsers();
+//createUsers(); // décommenter pour créer les utilisateurs lors du démarrage
+// simple route pour afficher un message de bienvenue (Query)
 app.get('/hello',(request,response)=>
 {
     response.send(`Hellooo to My App ${request.query.yourName}`);
@@ -45,10 +46,14 @@ app.get('/hello',(request,response)=>
 //afficher touts les users
 //GET : RETOURNER TOUS LES UTILISATEURS
 app.get("/", async (request, response) => {
-  const getAllUsers = await User.find();
-  response.status(200).json(getAllUsers);
+  try {
+    const getAllUsers = await User.find();
+    response.status(200).json(getAllUsers);
+  }catch(err){
+   response.status(500).send("Erreur lors de la récupération des utilisateurs :", error)
+  }
 });
-//ajouter un nouveaux user
+// POST : Ajouter un nouvel utilisateur
 app.post("/User", async (request, response) => {
   try {
     //constructeur
@@ -90,14 +95,14 @@ app.put("/userPut/:id", async (request, response) => {
     );
 
     response.status(200).json(findUser);
-    console.error(`Voila le resultat de la modification du User ${findUser.name} `);
+    console.error(`Voila le resultat de la modification d'User ${findUser.name} `);
   } catch (error) {
-    console.error("Error :", error);
+    console.error("Erreur :", error);
     response.status(500).send("Erreur lors de la modification");
   }
 });
 
-// SUPPRIMER UN UTILISATEUR PAR ID
+// DELETE :SUPPRIMER UN UTILISATEUR PAR ID
 app.delete("/userDelete/:id", async (request, response) => {
   try {
     const findTodelete = await User.findByIdAndDelete({
@@ -111,6 +116,7 @@ app.delete("/userDelete/:id", async (request, response) => {
   }
 });
 
+// Démarrage du serveur
 app.listen(port, () => {
   console.log("serveur ecoutant sur http://localhost:" + port);
 });
